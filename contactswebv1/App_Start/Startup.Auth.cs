@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using contactswebv1.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace contactswebv1
 {
@@ -18,6 +19,9 @@ namespace contactswebv1
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+
+            CreatingRolesAndUsers();
+
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
@@ -34,7 +38,7 @@ namespace contactswebv1
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -63,6 +67,33 @@ namespace contactswebv1
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+        }
+
+        private void CreatingRolesAndUsers()
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            if (!roleManager.RoleExists("Admin"))
+            {
+                var role = new IdentityRole();
+                role.Name = "Admin";
+                roleManager.Create(role);
+
+                var user = new ApplicationUser();
+                user.UserName = "spock@ncc1701.com";
+                user.Email = "spock@ncc1701.com";
+
+                var userPwd = "Fascinating#1!";
+                var chkUser = userManager.Create(user, userPwd);
+
+                if (!chkUser.Succeeded) throw new Exception("Couldnt create super admin user");
+
+                userManager.AddToRole(user.Id, "Admin");
+
+            }
+
         }
     }
 }
