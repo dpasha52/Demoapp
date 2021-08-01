@@ -31,6 +31,7 @@ namespace contactswebv1.Controllers
         // GET: Contacts/Details/5
         public ActionResult Details(int? id)
         {
+            _userId = GetCUrrentId();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -96,10 +97,10 @@ namespace contactswebv1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,PhonePrimary,PhoneSecondary,Birthday,StreetAddress1,StreetAddress2,StateId,City,Zip,UserId")] Contact contact)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,PhonePrimary,PhoneSecondary,Birthday,StreetAddress1,StreetAddress2,StateId,City,Zip")] Contact contact)
         {
             _userId = GetCUrrentId();
-            var exists = db.Contacts.FirstOrDefault(x => x.Id == contact.Id && x.UserId == _userId);
+            var exists = db.Contacts.AsNoTracking().FirstOrDefault(x => x.Id == contact.Id && x.UserId == _userId);
             if (exists == null) return HttpNotFound();
 
             contact.UserId = _userId;
@@ -119,6 +120,7 @@ namespace contactswebv1.Controllers
         // GET: Contacts/Delete/5
         public ActionResult Delete(int? id)
         {
+            _userId = GetCUrrentId();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -136,6 +138,7 @@ namespace contactswebv1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            _userId = GetCUrrentId();
             Contact contact = db.Contacts.FirstOrDefault( x => x.Id == id && x.UserId == _userId);
             db.Contacts.Remove(contact);
             db.SaveChanges();

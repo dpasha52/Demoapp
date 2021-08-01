@@ -4,11 +4,17 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="row" style="padding:25px">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-8">
+        @Html.ActionLink("Create New", "Create","Contacts", null, new { @class = "btn btn-default float-end", style = "min-width :150px;"})
+    </div>
+</div>
+<hr/>
+
 <table id="contacts_table" class="display" style="width:100%;">
     <thead>
         <tr>

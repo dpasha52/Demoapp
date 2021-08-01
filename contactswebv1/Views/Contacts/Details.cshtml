@@ -4,21 +4,13 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title - @Model.FriendlyName</h2>
 
 <div>
     <h4>Contact</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.State.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.State.Name)
-        </dd>
-
-        <dt>
             @Html.DisplayFor(model => model.FriendlyName)
         </dt>
 
@@ -26,38 +18,44 @@
         <dd>
             @Html.DisplayFor(model => model.FriendlyName)
         </dd>
-
 
         <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.PhonePrimary)
+            @Html.DisplayNameFor(model => model.Birthday)
         </dt>
+        @if (Model.Birthday != null)
+        {
+            <dd>
+                @Html.DisplayFor(model => model.Birthday)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PhonePrimary)
+            </dt>
+
+        }
 
         <dd>
             @Html.DisplayFor(model => model.PhonePrimary)
         </dd>
+        @if (!string.IsNullOrWhiteSpace(@Model.PhoneSecondary))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneSecondary)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneSecondary)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PhoneSecondary)
+            </dd>
+
+        }
 
         <dd>
-            @Html.DisplayFor(model => model.PhoneSecondary)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Birthday)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Birthday)
+            @Html.DisplayFor(model => model.Email)
         </dd>
 
         <dt>
@@ -67,6 +65,16 @@
         <dd>
             @Html.DisplayFor(model => model.FriendlyAdderss)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.State.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State.Name)
+        </dd>
+
+
+
     </dl>
 </div>
 <p>

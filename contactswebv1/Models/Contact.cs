@@ -12,37 +12,53 @@ namespace contactswebv1.Models
         [Key]
         public int  Id { get; set; }
 
+
+        [Display(Name = "First Name")]
         [Required(ErrorMessage = "First name is required ")]
         [StringLength(ContactWebConstants.MAX_FIRST_NAME_LENGTH)]
         public string FirstName { get; set; }
 
+
+        [Display(Name = "Last Name")]
         [Required(ErrorMessage = "Last name is required ")]
         [StringLength(ContactWebConstants.MAX_lAST_NAME_LENGTH)]
         public string LastName { get; set; }
 
+
+        [Display(Name = "Email Address")]
         [Required(ErrorMessage = "Email is Required")]
         [EmailAddress(ErrorMessage ="Inavlid Email Address")]
         [StringLength(ContactWebConstants.MAX_EMAIL_LENGTH)]
         public string Email { get; set; }
+
+
+        [Display(Name = "Home/Office Phone")]
         [Required(ErrorMessage = "Phone is required")]
         [StringLength(ContactWebConstants.MAX_PHONE_LENGTH)]
         [Phone(ErrorMessage ="Invalid Phone Number")]
         public String PhonePrimary { get; set; }
 
+   
         [Phone(ErrorMessage = "Invalid Phone Number")]
         [StringLength(ContactWebConstants.MAX_PHONE_LENGTH)]
         public string PhoneSecondary { get; set; }
         
         [DataType (DataType.Date)]
         public DateTime Birthday { get; set; }
-        
+
+
+        [Display(Name = "Street Address Line1")]
         [StringLength(ContactWebConstants.MAX_STREET_ADDRESS_LENGTH)]
         public string StreetAddress1 { get; set; }
 
         [StringLength(ContactWebConstants.MAX_STREET_ADDRESS_LENGTH)]
 
+        [Display(Name = "Street Address Line2")]
+
         public string StreetAddress2 { get; set; }
-        
+        [Display(Name = "Stat")]
+
+
         [Required (ErrorMessage ="State is required")]
         public int StateId { get; set; }
         
@@ -67,7 +83,8 @@ namespace contactswebv1.Models
         public string FriendlyName => $"{FirstName} {LastName}";
 
         [Display(Name ="Full Address")]
-        public string FriendlyAdderss => string.IsNullOrWhiteSpace(StreetAddress2)
+        public string FriendlyAdderss => string.IsNullOrWhiteSpace(StreetAddress1)?  $"{City}, {State.Abbreviation}, {Zip}":
+                                           string.IsNullOrWhiteSpace(StreetAddress2)
                                          ? $"{StreetAddress1}, {City}, {State.Abbreviation}, {Zip}"
                                          : $"{StreetAddress1} - {StreetAddress2} , {City}, {State.Abbreviation}, {Zip}";
 
