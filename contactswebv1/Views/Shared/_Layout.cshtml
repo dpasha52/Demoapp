@@ -11,7 +11,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggler navbar-dark bg-primary">
-            <div class="container">
+            <div class="container-fluid">
                 @Html.ActionLink("Myfirstfunctionalmvcapplication", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" ,
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -21,24 +21,38 @@
                     @Html.Partial("_LoginPartial")
 
                     <ul class="navbar-nav flex-grow-1">
-                        <li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index"
+                            && ViewContext.RouteData.Values["Controller"].ToString() == "Home"
+                            ? "nav-item-active" : "nav-item")">
                             @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link text-light" })
                         </li>
-                        <li>
+                        <li @(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "nav-item-active" : "nav-item")>
                             @Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link text-light" })
                         </li>
-                        <li>
+                        <li @(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "nav-item-active" : "nav-item")>
                             @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link text-light" })
                         </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li @(ViewContext.RouteData.Values["Action"].ToString() == "States" ? "nav-item-active" : "nav-item")>
+                                @Html.ActionLink("States", "Index", "States", new { area = "" }, new { @class = "nav-link text-light" })
+                            </li>
+                        }
+
+                        @if (User.Identity.Name.ToString().Length > 0)
+                         {
+                            <li @(ViewContext.RouteData.Values["Action"].ToString() == "Contacts" ? "nav-item-active" : "nav-item")>
+                                @Html.ActionLink("My Contacts", "Index", "Contacts", new { area = "" }, new { @class = "nav-link text-light" })
+                            </li>
+                         }
                     </ul>
                 </div>
-
             </div>
         </nav>
 
     </header>
 
-    <div class="container">
+    <div class="container-fluid">
 
         <main role="main" class="pb-3">
             @RenderBody()
@@ -54,6 +68,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datatables")
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -23,8 +23,13 @@ namespace contactswebv1
             //          "~/Scripts/bootstrap.js"));
             bundles.Add(new Bundle("~/scripts/core").Include("~/content/scripts/bootstrap.bundle.min.js"));
 
+            bundles.Add(new Bundle("~/bundles/datatables").Include(
+                "~/Scripts/DataTables/datatables.min.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/DataTables/datatables.min.css",
+                      "~/Content/DataTables/jquery.datatables.min.css",
                       "~/Content/site.css"));
         }
     }
